@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: Lab2-TH
+  profiles:
+    active: dev
+  datasource:
+    host: localhost
+    port: 9092
+    database: default_db
+    username: default_user
+    password: default_password
+    url: jdbc:h2:mem:defaultdb
+    driver-class-name: org.h2.Driver
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+    info:
+      show-details: always
