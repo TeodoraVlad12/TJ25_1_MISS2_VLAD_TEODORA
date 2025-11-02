@@ -6,23 +6,20 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
+import java.util.List;
+
 @Entity
-@Table(name = "students")
+@Table(name = "instructors")
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class Student extends Person {
+public class Instructor extends Person {
     
-    @Column(unique = true, nullable = false)
-    private String code;
+    @OneToMany(mappedBy = "instructor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Course> courses;
     
-    @Column(nullable = false)
-    private Integer year;
-    
-    public Student(Long id, String name, String email, String code, Integer year) {
+    public Instructor(Long id, String name, String email) {
         super(id, name, email);
-        this.code = code;
-        this.year = year;
     }
 }
