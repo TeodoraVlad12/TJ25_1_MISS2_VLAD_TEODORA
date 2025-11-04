@@ -18,7 +18,6 @@ public class StudentController {
     @Autowired
     private StudentService studentService;
 
-    // get
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<List<Student>> getAllStudents() {
         List<Student> students = studentService.getAllStudents();
@@ -79,7 +78,7 @@ public class StudentController {
         }
         
         try {
-            student.setId(id); // Ensure the ID matches the path variable
+            student.setId(id);
             Student updatedStudent = studentService.saveStudent(student);
             return ResponseEntity.ok(updatedStudent); // 200 OK
         } catch (Exception e) {

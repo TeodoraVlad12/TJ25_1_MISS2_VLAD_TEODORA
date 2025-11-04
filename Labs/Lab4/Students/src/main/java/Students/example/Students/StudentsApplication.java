@@ -41,7 +41,8 @@ public class StudentsApplication implements CommandLineRunner {
 		long studentCount = studentService.getAllStudents().size();
 		long instructorCount = instructorService.getAllInstructors().size();
 		
-		if (studentCount > 0 || instructorCount > 0) {
+		// Temporarily force data recreation
+		if (false && (studentCount > 0 || instructorCount > 0)) {
 			System.out.println("=== Database already contains data ===");
 			System.out.println("Found " + studentCount + " students and " + instructorCount + " instructors");
 			System.out.println("Skipping data population to avoid conflicts");

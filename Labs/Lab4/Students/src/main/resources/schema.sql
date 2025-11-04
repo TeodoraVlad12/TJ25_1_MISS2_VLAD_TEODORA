@@ -30,3 +30,11 @@ CREATE TABLE IF NOT EXISTS courses (
     group_count INTEGER NOT NULL DEFAULT 1,
     description TEXT
 );
+
+CREATE TABLE IF NOT EXISTS student_preferences (
+    id BIGSERIAL PRIMARY KEY,
+    student_id BIGINT NOT NULL REFERENCES students(id) ON DELETE CASCADE,
+    course_id BIGINT NOT NULL REFERENCES courses(id) ON DELETE CASCADE,
+    preference_order INTEGER NOT NULL,
+    UNIQUE(student_id, course_id)
+);
