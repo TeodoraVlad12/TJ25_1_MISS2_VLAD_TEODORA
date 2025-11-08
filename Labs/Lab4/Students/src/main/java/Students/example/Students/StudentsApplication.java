@@ -37,12 +37,12 @@ public class StudentsApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		// Check if data already exists
+
 		long studentCount = studentService.getAllStudents().size();
 		long instructorCount = instructorService.getAllInstructors().size();
 		
-		// Temporarily force data recreation
-		if (false && (studentCount > 0 || instructorCount > 0)) {
+
+		if (studentCount > 0 || instructorCount > 0) {
 			System.out.println("=== Database already contains data ===");
 			System.out.println("Found " + studentCount + " students and " + instructorCount + " instructors");
 			System.out.println("Skipping data population to avoid conflicts");
@@ -75,6 +75,10 @@ public class StudentsApplication implements CommandLineRunner {
 			Instructor instructor = new Instructor();
 			instructor.setName(faker.name().fullName());
 			instructor.setEmail(faker.internet().emailAddress());
+			instructor.setUsername("instructor" + (i + 1));
+			instructor.setPassword("$2a$10$gZWJR7A8P.PmJw8K2aS6HOa7uF7eMduKcb8X2gyl1P1mTQpL5vLt2"); // "password123"
+			instructor.setRole(User.Role.INSTRUCTOR);
+			instructor.setEnabled(true);
 			instructors.add(instructorService.saveInstructor(instructor));
 		}
 		return instructors;
@@ -105,6 +109,10 @@ public class StudentsApplication implements CommandLineRunner {
 			student.setCode("STU" + String.format("%03d", i + 1));
 			student.setName(faker.name().fullName());
 			student.setEmail(faker.internet().emailAddress());
+			student.setUsername("student" + (i + 1));
+			student.setPassword("$2a$10$gZWJR7A8P.PmJw8K2aS6HOa7uF7eMduKcb8X2gyl1P1mTQpL5vLt2"); // "password123"
+			student.setRole(User.Role.STUDENT);
+			student.setEnabled(true);
 			student.setYear(random.nextInt(4) + 1); // Years 1-4
 			students.add(studentService.saveStudent(student));
 		}

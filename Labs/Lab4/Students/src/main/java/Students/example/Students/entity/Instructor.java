@@ -14,12 +14,19 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class Instructor extends Person {
+public class Instructor extends User {
     
     @OneToMany(mappedBy = "instructor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Course> courses;
     
-    public Instructor(Long id, String name, String email) {
-        super(id, name, email);
+    public Instructor(Long id, String name, String email, String username, String password) {
+        super();
+        setId(id);
+        setName(name);
+        setEmail(email);
+        setUsername(username);
+        setPassword(password);
+        setRole(Role.INSTRUCTOR);
+        setEnabled(true);
     }
 }

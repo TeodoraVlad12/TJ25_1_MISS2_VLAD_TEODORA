@@ -6,13 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/students")
+@RequestMapping("/api/students")
 public class StudentController {
     
     @Autowired
@@ -61,6 +62,7 @@ public class StudentController {
     }
     
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    @PreAuthorize("hasRole('ADMIN') or hasRole('INSTRUCTOR')")
     public ResponseEntity<Student> createStudent(@RequestBody Student student) {
         try {
             student.setId(null);
@@ -72,6 +74,7 @@ public class StudentController {
     }
     
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    @PreAuthorize("hasRole('ADMIN') or hasRole('INSTRUCTOR')")
     public ResponseEntity<Student> updateStudent(@PathVariable Long id, @RequestBody Student student) {
         if (!studentService.existsById(id)) {
             return ResponseEntity.notFound().build(); // 404 not found
@@ -87,6 +90,7 @@ public class StudentController {
     }
     
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deleteStudent(@PathVariable Long id) {
         if (!studentService.existsById(id)) {
             return ResponseEntity.notFound().build(); // 404 not found

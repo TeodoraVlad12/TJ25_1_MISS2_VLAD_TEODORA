@@ -12,7 +12,8 @@ import lombok.AllArgsConstructor;
 public abstract class Person {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "person_seq")
+    @SequenceGenerator(name = "person_seq", sequenceName = "person_sequence", allocationSize = 1)
     private Long id;
     
     @Column(nullable = false)

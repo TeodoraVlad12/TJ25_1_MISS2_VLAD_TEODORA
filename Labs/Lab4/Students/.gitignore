@@ -38,7 +38,20 @@ logs/
 
 ### OS ###
 .DS_Store
+*/.DS_Store
+../.DS_Store
 Thumbs.db
+
+### Lab Files ###
+*.zip
+*.rar
+*.tar.gz
+
+### IDE Files ###
+**/.idea/
+*.iml
+*.ipr
+*.iws
 
 ### Application ###
 application-local.properties
