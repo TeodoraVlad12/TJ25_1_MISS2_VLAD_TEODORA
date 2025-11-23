@@ -13,6 +13,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 
@@ -27,6 +28,7 @@ public class AuthService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
+    @Transactional
     public Map<String, String> register(RegisterRequest request) {
         if (userRepository.existsByUsername(request.getUsername())) {
             throw new RuntimeException("Username already exists");
@@ -54,20 +56,23 @@ public class AuthService {
         user.setRole(request.getRole());
         user.setEnabled(true);
 
+        User savedUser;
         if (user instanceof Student) {
-            studentRepository.save((Student) user);
+            savedUser = studentRepository.save((Student) user);
         } else if (user instanceof Instructor) {
-            instructorRepository.save((Instructor) user);
+            savedUser = instructorRepository.save((Instructor) user);
         } else {
-            userRepository.save(user);
+            savedUser = userRepository.save(user);
         }
 
-        String token = jwtService.generateToken(user);
+        System.out.println("User saved with ID: " + savedUser.getId());
+
+        String token = jwtService.generateToken(savedUser);
         
         return Map.of(
             "token", token,
-            "username", user.getUsername(),
-            "role", user.getRole().name(),
+            "username", savedUser.getUsername(),
+            "role", savedUser.getRole().name(),
             "message", "User registered successfully"
         );
     }
